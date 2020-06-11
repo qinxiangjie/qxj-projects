@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員基本情報変更画面</title>
+<style>
+body {
+	background: url(background.jpg);
+	background-size: cover;
+}
+
+table {
+	border-collapse: collapse;
+	width: 600px;
+}
+
+td {
+	line-height: 50px;
+}
+
+#div1 {
+	text-align: right;
+	margin-right: 20%;
+}
+
+.btn {
+	width: 100px;
+	align: center;
+}
+</style>
+</head>
+<body>
+	<header>
+		<h1 th:text="社員基本情報変更画面"></h1>
+		<hr>
+	</header>
+	<div id="div1">
+		<form>
+			<a th:href="@{/login}"><input type="button" value="ログアウト"
+				class="btn" /></a>
+		</form>
+	</div>
+	<div align="center">
+		<form method="post" action="/change" th:object="${form}">
+			<!-- 入力テーブル -->
+			<table>
+				<tr>
+					<td th:text="#{employeeId}"></td>
+					<td><input type="text" th:field="*{empCd}" maxlength="6"
+						size="20" /></td>
+					<td th:text="#{required}"></td>
+				</tr>
+				<tr>
+					<td th:text="#{name}"></td>
+					<td><input type="text" th:field="*{name}" size="20" /></td>
+					<td th:text="#{required}"></td>
+				</tr>
+				<tr>
+					<td th:text="#{sex}"></td>
+					<td><select th:field="*{sexCd}">
+							<option value=""></option>
+							<option th:each="sex:${sexList}" th:value="${sex.sexCd}"
+								th:text="${sex.sexName}"></option>
+					</select></td>
+					<td th:text="#{required}"></td>
+				</tr>
+				<tr>
+					<td th:text="#{birthday}"></td>
+					<td><input type="date" size="20" th:field="*{birthday}"></td>
+					<td th:text="#{required}"></td>
+				</tr>
+				<tr>
+					<td th:text="#{nationality}"></td>
+					<td><select th:field="*{countryCd}">
+							<option value=""></option>
+							<option th:each="country:${countryList}"
+								th:value="${country.countryCd}" th:text="${country.countryName}"></option>
+					</select></td>
+					<td th:text="#{required}"></td>
+				</tr>
+			</table>
+			<br>
+			<div align="center">
+				<input type="submit" value="確定" class="btn" />&nbsp; <a
+					th:href="@{/empList}"><input type="button" value="戻る"
+					class="btn" /></a>
+			</div>
+		</form>
+	</div>
+	<div id="aligncenter" style="color: red">
+		<p th:text="${message}"></p>
+	</div>
+	<div id="aligncenter">
+		<div style="color: red; height: 30px" th:each="message:${errorList}"
+			th:text=${message.defaultMessage}></div>
+	</div>
+	<footer>
+		<hr>
+		<h4>Softusing.co.jp</h4>
+	</footer>
+</body>
+</html>

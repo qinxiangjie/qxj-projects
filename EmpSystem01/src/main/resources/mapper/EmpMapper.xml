@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.softusing.demo.mapper.EmpMapper">
+	<resultMap type="com.softusing.demo.bean.EmpInfo"
+		id="empResultMap">
+		<id property="empCd" column="empCd" />
+		<result property="name" column="name" />
+		<result property="birthday" column="birthday" />
+		<result property="country.countryName" column="countryName" />
+		<result property="country.countryCd" column="countryCd" />
+		<result property="sex.sexCd" column="sexCd" />
+		<result property="sex.sexName" column="sexName" />
+	</resultMap>
+	<!-- すべての社員情報を取得 -->
+	<select id="listEmp" resultMap="empResultMap">
+		SELECT
+		empinfo.empCd,empinfo.name,empinfo.birthday,country.countryCd,country.countryName,sex.sexCd,sex.sexName
+		FROM empinfo
+		LEFT JOIN country ON (empinfo.countryCd=country.countryCd)
+		LEFT JOIN sex ON (empinfo.sexCd=sex.sexCd)
+	</select>
+	<select id="selectEmp" parameterType="String"
+		resultMap="empResultMap">
+		SELECT
+		empinfo.empCd,empinfo.name,empinfo.birthday,country.countryCd,country.countryName,sex.sexCd,sex.sexName
+		FROM empinfo
+		LEFT JOIN country ON (empinfo.countryCd=country.countryCd)
+		LEFT JOIN sex ON (empinfo.sexCd=sex.sexCd)
+		WHERE
+		concat(empCd,name,birthday,countryName,SexName)
+		LIKE #{0}
+	</select>
+	<select id="selectEmpCd" parameterType="String"
+		resultMap="empResultMap">
+		SELECT
+		empinfo.empCd,empinfo.name,empinfo.birthday,country.countryCd,country.countryName,sex.sexCd,sex.sexName
+		FROM empinfo
+		LEFT JOIN country ON (empinfo.countryCd=country.countryCd)
+		LEFT JOIN sex ON (empinfo.sexCd=sex.sexCd)
+		WHERE empCd = #{0}
+	</select>
+	<insert id="addEmp"
+		parameterType="com.softusing.demo.form.EmpForm">
+		INSERT INTO empinfo(empCd,name,birthday,countryCd,sexCd)
+		VALUES (#{empCd},#{name},#{birthday},#{countryCd},#{sexCd})
+	</insert>
+	<update id="updateEmp"
+		parameterType="com.softusing.demo.form.UpdateForm">
+		UPDATE empinfo
+		SET
+		name=#{name},birthday=#{birthday},countryCd=#{countryCd},sexCd=#{sexCd}
+		WHERE empCd=#{empCd}
+	</update>
+	<delete id="deleteEmp" parameterType="String">
+		DELETE FROM empinfo
+		WHERE
+		empCd=#{0}
+	</delete>
+</mapper>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>welcome</title>
+</head>
+<style>
+body {
+	background-image: url(background.jpg);
+	background-size: cover;
+}
+</style>
+<body>
+	<h1 th:text="#{title}"></h1>
+	<hr>
+	<div id="typein" align="center">
+		<form method="post" action="/auth" th:object="${form}">
+			<table>
+				<tr th:inline="text" th:each="message : ${errorList}">
+					<td>[[${message.defaultMessage}]]</td>
+				</tr>
+				<tr>
+					<td><p th:text="#{userid}"></p></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="accountId" value="" size="40"
+						th:field="*{accountId}"
+						th:placeholder="#{login.userid.placeholder}"
+						onkeydown="eraseInfo();" /></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+				<tr>
+					<td><p th:text="#{password}"></p></td>
+				</tr>
+				<tr>
+					<td><input type="password" name="password" value="" size="40"
+						th:field="*{password}" maxlength="6" onkeydown="eraseInfo();" />
+					</td>
+				</tr>
+			</table>
+			<input type="submit" value="" class="loginbtn"
+				th:attr="value=#{login}" /><br />
+			<div id="show" style="color: red">
+				<p th:text="${message}"></p>
+			</div>
+		</form>
+	</div>
+	<footer>
+		<hr>
+		<h4>Softusing.co.jp</h4>
+	</footer>
+</body>
+</html>
